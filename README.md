@@ -76,7 +76,7 @@ Page segmentation modes:
 Based on the info we select 8 for single words.
 
 ```bash
-sudo make training MODEL_NAME=parsi START_MODEL=fas PSM=8 TESSDATA=/usr/local/share/tessdata
+sudo make training MODEL_NAME=parsi START_MODEL=fas PSM=8 TESSDATA=/usr/local/share/tessdata MAX_ITERATIONS=100000 EPOCHS=100000
 sudo cp data/parsi.traineddata /usr/local/share/tessdata
 ```
 
