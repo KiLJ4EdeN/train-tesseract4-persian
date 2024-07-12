@@ -1,6 +1,5 @@
 import sys
 import pytesseract
-from difflib import SequenceMatcher as SQ
 
 try:
     from PIL import Image
