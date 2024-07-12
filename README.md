@@ -7,8 +7,7 @@ python version 3.9.19
 ```bash
 sudo apt-get install -y wget unzip bc vim libleptonica-dev
 sudo apt-get install -y --reinstall make # 4.2+
-sudo apt-get install -y g++ autoconf automake libtool pkg-config libpng-dev libjpeg8-dev libtiff5-dev libicu-dev \
-        libpango1.0-dev autoconf-archive
+sudo apt-get install -y g++ autoconf automake libtool pkg-config libpng-dev libjpeg8-dev libtiff5-dev libicu-dev libpango1.0-dev autoconf-archive
 sudo apt-get install libgirepository1.0-dev
 sudo apt-get install libcairo2-dev libjpeg-dev libgif-dev
 wget https://github.com/tesseract-ocr/tesseract/archive/4.1.0.zip
@@ -29,6 +28,7 @@ pip install -r requirements.txt
 ```
 
 # data 
+note that these are assumed to be word images, if they are not just detect and crop them.
 ```bash
 data/
         ground-truth/
@@ -39,19 +39,44 @@ data/
                 {idx}.gt.txt
 ```
 
-# train
 
+# train
 ```bash
 cd tesseract-4.1.0
 git clone https://github.com/tesseract-ocr/tesstrain
 cd ..
 sudo mkdir -p  tesseract-4.1.0/tesstrain/data/parsi-ground-truth
-sudo cp -a ./data/ground-truth/* tesseract-4.1.0/tesstrain/data/parsi-ground-truth/.
+sudo rsync -a ./data/ground-truth/ tesseract-4.1.0/tesstrain/data/parsi-ground-truth/
 cd tesseract-4.1.0/tesstrain
 ```
 
+## page segmentation mode
+Set correct psm according to tesseract for training:
+
+PSM                Page segmentation mode. Default: 13
 ```bash
-sudo make training MODEL_NAME=parsi START_MODEL=fas TESSDATA=/usr/local/share/tessdata
+user@Workstation:~$ tesseract --help-psm
+Page segmentation modes:
+  0    Orientation and script detection (OSD) only.
+  1    Automatic page segmentation with OSD.
+  2    Automatic page segmentation, but no OSD, or OCR. (not implemented)
+  3    Fully automatic page segmentation, but no OSD. (Default)
+  4    Assume a single column of text of variable sizes.
+  5    Assume a single uniform block of vertically aligned text.
+  6    Assume a single uniform block of text.
+  7    Treat the image as a single text line.
+  8    Treat the image as a single word.
+  9    Treat the image as a single word in a circle.
+ 10    Treat the image as a single character.
+ 11    Sparse text. Find as much text as possible in no particular order.
+ 12    Sparse text with OSD.
+ 13    Raw line. Treat the image as a single text line,
+       bypassing hacks that are Tesseract-specific.
+```
+Based on the info we select 8 for single words.
+
+```bash
+sudo make training MODEL_NAME=parsi START_MODEL=fas PSM=8 TESSDATA=/usr/local/share/tessdata
 sudo cp data/parsi.traineddata /usr/local/share/tessdata
 ```
 

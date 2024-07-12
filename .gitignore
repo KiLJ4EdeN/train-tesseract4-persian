@@ -1,4 +1,5 @@
 env
 get_data.py
-**tesseract**
+tesseract**
 data/
+mjsynth_format_dataset
