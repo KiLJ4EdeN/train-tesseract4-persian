@@ -45,8 +45,8 @@ data/
 cd tesseract-4.1.0
 git clone https://github.com/tesseract-ocr/tesstrain
 cd ..
-sudo mkdir -p  tesseract-4.1.0/tesstrain/data/parsi-ground-truth
-sudo rsync -a ./data/ground-truth/ tesseract-4.1.0/tesstrain/data/parsi-ground-truth/
+mkdir -p  tesseract-4.1.0/tesstrain/data/parsi-ground-truth
+rsync -a ./data/ground-truth/ tesseract-4.1.0/tesstrain/data/parsi-ground-truth/
 cd tesseract-4.1.0/tesstrain
 ```
 
@@ -76,7 +76,7 @@ Page segmentation modes:
 Based on the info we select 8 for single words.
 
 ```bash
-sudo make training MODEL_NAME=parsi START_MODEL=fas PSM=8 TESSDATA=/usr/local/share/tessdata MAX_ITERATIONS=100000 EPOCHS=100000
+sudo make training MODEL_NAME=parsi START_MODEL=fas PSM=8 TESSDATA=/usr/local/share/tessdata MAX_ITERATIONS=100000 EPOCHS=100000 -j32
 sudo cp data/parsi.traineddata /usr/local/share/tessdata
 ```
 

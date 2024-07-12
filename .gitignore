@@ -3,3 +3,4 @@ get_data.py
 tesseract**
 data/
 mjsynth_format_dataset
+out.txt
