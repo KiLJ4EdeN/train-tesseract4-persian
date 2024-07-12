@@ -76,8 +76,24 @@ Page segmentation modes:
 Based on the info we select 8 for single words.
 
 ```bash
-sudo make training MODEL_NAME=parsi START_MODEL=fas PSM=8 TESSDATA=/usr/local/share/tessdata MAX_ITERATIONS=100000 EPOCHS=100000 -j32
+sudo make training MODEL_NAME=parsi START_MODEL=fas PSM=8 TESSDATA=/usr/local/share/tessdata MAX_ITERATIONS=100000 EPOCHS=100000 -j16
 sudo cp data/parsi.traineddata /usr/local/share/tessdata
+```
+
+output example:
+```bash
+At iteration 7569/99900/100784, Mean rms=0.379%, delta=0.929%, char train=2.211%, word train=4.16%, skip ratio=0.5%,  New worst char error = 2.211 wrote checkpoint.
+
+At iteration 7572/100000/100884, Mean rms=0.347%, delta=0.71%, char train=1.755%, word train=3.86%, skip ratio=0.5%,  New worst char error = 1.755 wrote checkpoint.
+
+Finished! Error rate = 1.07
+
+lstmtraining \
+--stop_training \
+--continue_from data/parsi/checkpoints/parsi_checkpoint \
+--traineddata data/parsi/parsi.traineddata \
+--model_output data/parsi.traineddata
+Loaded file data/parsi/checkpoints/parsi_checkpoint, unpacking...
 ```
 
 # test
